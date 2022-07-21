@@ -145,7 +145,131 @@ const task08 = () =>{
     }
     console.log(counter)
 }
-console.log(task04(200))
+
+
+const task09  = () => {
+  let randomArray = randomNumerArray(1,33,3);
+  while(true){
+    let slicedArray = randomArray.slice(-3)
+    let isprimaryArray = true
+    for (let x = 0; x < slicedArray.length; x++) {
+      if(task04(slicedArray[x])>0 || slicedArray[x] ==1){
+        isprimaryArray = false
+      }
+    }
+    if(isprimaryArray) {
+      break;
+    }
+    randomArray.push(randomNumer(1,33))
+  }
+  console.log(randomArray)
+}
+
+
+const findLowestNumberOnlyForTask10 = (array) => {
+  let lowestNumber = array[0][0]
+  for (let x = 0; x < 10; x++) {
+    for (let y = 0; y < 10; y++) {
+      if(array[x][y]<lowestNumber){
+        lowestNumber = array[x][y]
+      }
+    }    
+  }
+  return lowestNumber;
+}
+
+const addToLowestNumber = (array, lowestNumber, toadd)=>{
+  for (let x = 0; x < 10; x++) {
+    for (let y = 0; y < 10; y++) {
+      if(array[x][y] == lowestNumber){
+        array[x][y]+=toadd
+      }
+    }    
+  }
+  return array;
+}
+
+const getPrimeAverage = (array)=>{
+  let total = 0;
+  let counter = 0;
+  let numArray = [];
+  for (let x = 0; x < 10; x++) {
+    for (let y = 0; y < 10; y++) {
+     if(task04(array[x][y])==0 && array[x][y] >1 ){
+        total+=array[x][y];
+        counter++;
+        numArray.push(array[x][y])
+      }
+    }    
+  }
+  return total/counter;
+}
+
+const task10 = () => {
+  let mainArray = [];
+  for (let x = 0; x < 10; x++) {
+    let subArray = [];
+    for (let y = 0; y < 10; y++) {
+      subArray.push(randomNumer(1,100));
+    }
+    mainArray.push(subArray);    
+  }
+  console.log(mainArray);
+  while(true){
+    if(getPrimeAverage(mainArray) < 70){
+      const lowestNumber = findLowestNumberOnlyForTask10(mainArray);
+      mainArray = addToLowestNumber(mainArray, lowestNumber, 3);
+    }
+    else{
+      console.log(getPrimeAverage(mainArray));
+      break;
+    }
+  }
+
+  console.log(mainArray)
+}
+
+const generateArray =(size)=> {
+    let array = []
+    for (let x = 0; x < size; x++) {
+    if(x<=size/2){
+      array.push(0);
+    }else if(randomNumer(0,1)){
+      array.push(1)
+    }else{
+      array.push(0);
+    }
+  }
+  return array;
+}
+
+const generateSubArray =(array)=> {
+  for (let x = 0; x < array.length; x++) {
+  if(array[x] ==1){
+     array[x]=generateSubArray(generateArray(5))
+  }    
+}
+return array;
+}
+
+const task11 = () => {
+  const arraySize = randomNumer(11, 11);
+  let mainArray = generateArray(arraySize);
+  for (let x = 0; x < mainArray.length; x++) {
+    if(mainArray[x]){
+      mainArray[x] = generateSubArray(generateArray(5))
+    }    
+  }
+  console.log(mainArray)
+}
+
+task11();
+
+// task11();
+
+// task10();
+
+// task09();
 // task08();
 // task07()
 
